@@ -1,21 +1,48 @@
-<div class="row">
-	<div class="col-md-12">
-		<h1>Menú principal</h1>
-</div>
-</div>
-  <div class="row">
+
       <?php 
 $u=null;
 if(Session::getUID()!=""):
   $u = UserData::getById(Session::getUID()); 
 ?>  
 
+<?php
+$op=(isset($_POST['opc']))?$_POST['opc']:"";
+
+if($op!=""){
+  $pacienteasignado = AsignacionData::getAll2($u->id,$op);
+}else{
+  $pacienteasignado = AsignacionData::getAll($u->id);
+}
+
+?>
        
 
 
-<?php if($u->cargo=="Doctor"):?>
+<?php if($u->cargo=="Doctor" || $u->cargo== "Enfermera" || $u->cargo== "Personal auxiliar"):?>
 
-	
+  <div class="row">
+	<div class="col-md-12">
+		<h1>Modulos</h1>
+</div>
+</div>
+  <div class="row">
+
+  <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3><?php echo count(PacientesData::getAll());?></h3>
+
+
+              <p>Pacientes</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-users"></i>
+            </div>
+            <a href="./?view=pacientes" class="small-box-footer">Ver mas <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+		<!-- ./col -->
        
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
@@ -34,14 +61,63 @@ if(Session::getUID()!=""):
         </div>
 		<!-- ./col -->
 
-		
-		
-		
-		
+<?php endif;
+	if($u->cargo=="Familiar"):
+?>
 
+<div class="row">
+	<div class="col-md-12">
+		<h1>Familiares</h1>
+</div>
+</div>
+<div style="margin-left:30%;">
+  <form action="" method="post">
+    <input style="
+      font-family: 'Roboto', sans-serif;
+      outline: 0;
+      background: #e0e0e0;
+      width: 40%;
+      border: 0;
+      margin: 0 0 15px;
+      padding: 15px;
+      box-sizing: border-box;
+      font-size: 14px;
+    " placeholder="Buscar Familiar..." name="opc"/>
+&nbsp;
+    <button type="submit" class="btn btn-primary btn-lg active">Buscar</button>
+  </form>
+</div><br>
+
+  <div class="row">
+
+
+<?php
+  foreach ($pacienteasignado as $p) {
+?>
+ <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3><?php echo $p->nombre;?></h3>
+
+              <p><?php echo "Parentesco: ", $p->parentesco;?></p>
+              <p><?php echo "Notificaciones Nuevas: ",count(NotificacionesData::getCountNot($p->id_pacientes));?></p>
+            </div>
+            <div class="icon">
+            <i class="fa fa-user"></i>
+            </div>
+            <form action="./?view=Fnotificaciones" method="post">
+              <input type="hidden" name="id_paciente" value="<?php echo $p->id_pacientes;  ?>">
+              <button type="submit" style="border:none;" class="btn btn-danger btn-lg btn-block">Ver mas... <i class="fa fa-arrow-circle-right"></i></button>
+            </form>
+           
+          </div>
+        </div>
+		<!-- ./col -->
+<?php
+  }
+?>
 <?php endif;?>
-        
-
 
       </div>
       <!-- /.row -->

@@ -22,20 +22,7 @@ if(Session::getUID()!=""){
 		<h1>Usuarios</h1>
 <br>
 		<?php
-		/*
-		$u = new UserData();
-		print_r($u);
-		$u->name = "Agustin";
-		$u->lastname = "Ramos";
-		$u->email = "evilnapsis@gmail.com";
-		$u->password = sha1(md5("l00lapal00za"));
-		$u->add();
-
-
-		$f = $u->createForm();
-		print_r($f);
-		echo $f->label("name")." ".$f->render("name");
-		*/
+	
 		?>
 		<?php
 
@@ -56,7 +43,7 @@ if(Session::getUID()!=""){
 			foreach($users as $user){
 				?>
 				<tr>
-				<td><?php echo $user->nombre." ".$user->apellidos; ?></td>
+				<td><?php echo utf8_encode($user->nombre)." ".utf8_encode($user->apellidos); ?></td>
 				<td><?php echo $user->username; ?></td>
 				<td><?php echo $user->email; ?></td>
 				<td><?php echo $user->cargo; ?></td>
@@ -68,9 +55,9 @@ if(Session::getUID()!=""){
 
 				
 				<td style="width:130px;">
-
+<!--
 				<a href="index.php?view=edituser&id=<?php echo $user->id;?>" class="btn btn-warning btn-xs">Editar</a>
-
+-->
 				<a href="index.php?view=deluser&id=<?php echo $user->id;?>" onclick="return confirmar()" class="btn btn-danger btn-xs">Eliminar</a></td>
 
 

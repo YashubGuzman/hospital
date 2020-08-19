@@ -64,6 +64,12 @@ class UserData {
 		return Model::many($query[0],new UserData());
 	}
 
+	public static function getByrol(){
+		$sql = "select * from ".self::$tablename. " WHERE cargo='Familiar'";
+		$query = Executor::doit($sql);
+		return Model::many($query[0],new UserData());
+	}
+
 
 
 	/*
@@ -114,6 +120,13 @@ public static function getAll(){
 		return $array;
 	}
 
+
+
+
+
 }
+
+
+
 
 ?>

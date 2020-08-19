@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Hospital</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->
     <link href="plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -63,7 +64,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <!-- The user image in the navbar-->
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                  <span class=""><?php if(isset($_SESSION["user_id"]) ){ echo UserData::getById($_SESSION["user_id"])->nombre;
+                  <span class=""><?php if(isset($_SESSION["user_id"]) ){ echo utf8_encode(UserData::getById($_SESSION["user_id"])->nombre);
 
                   }?> <b class="caret"></b> </span>
 
@@ -111,9 +112,11 @@ $u=null;
 if(Session::getUID()!=""):
   $u = UserData::getById(Session::getUID()); 
 ?>
-            <?php if($u->cargo=="Doctor"):?>
+            <?php if($u->cargo=="Doctor" || $u->cargo=="Enfermera" || $u->cargo=="Personal auxiliar"):?>
 
               <li><a href="./index.php?view=home"><i class='fa fa-home'></i> <span>Inicio</span></a></li>
+
+              <li><a href="./index.php?view=pacientes"><i class='fa fa-users'></i> <span>Pacientes</span></a></li>
               
               <li class="treeview">
               <a href="#"><i class='fa fa-cog'></i> <span>Configuración</span> <i class="fa fa-angle-left pull-right"></i></a>
